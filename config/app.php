@@ -73,6 +73,20 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Available locales
+    |--------------------------------------------------------------------------
+    |
+    | List all locales that your application works with
+    |
+    */
+    'available_locales' => [
+        'English' => 'en',
+        'Romanian' => 'ro',
+        'French' => 'fr',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Locale Configuration
     |--------------------------------------------------------------------------
     |
@@ -194,6 +208,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\PermissionServiceProvider::class,
 
     ],
 
