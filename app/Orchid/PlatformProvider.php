@@ -93,6 +93,18 @@ class PlatformProvider extends OrchidServiceProvider
                 ->icon('lock')
                 ->route('platform.systems.roles')
                 ->permission('platform.systems.roles'),
+
+            Menu::make(__('Categories'))
+                ->icon('folder')
+                ->route('platform.systems.category.list')
+                ->permission('platform.systems.category')
+                ->title(__('Data')),
+
+            Menu::make(__('Articles'))
+                ->icon('notebook')
+                ->route('platform.systems.article')
+                ->permission('platform.systems.article')
+                ->title(__('Content')),
         ];
     }
 
@@ -114,9 +126,9 @@ class PlatformProvider extends OrchidServiceProvider
     public function registerPermissions(): array
     {
         return [
-            ItemPermission::group(__('System'))
-                ->addPermission('platform.systems.roles', __('Roles'))
-                ->addPermission('platform.systems.users', __('Users')),
+//            ItemPermission::group(__('System'))
+//                ->addPermission('platform.systems.roles', __('Roles'))
+//                ->addPermission('platform.systems.users', __('Users')),
         ];
     }
 }

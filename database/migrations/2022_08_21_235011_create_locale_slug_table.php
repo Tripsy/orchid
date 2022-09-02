@@ -20,8 +20,8 @@ return new class extends Migration
             $table->bigInteger('entry_id', false, true);
             $table->char('content', 64);
 
-            $table->index(['section', 'locale', 'content']);
-            $table->index(['entry_id', 'section', 'locale']);
+            $table->unique(['section', 'locale', 'content']);
+            $table->unique(['entry_id', 'section', 'locale']);
         });
     }
 

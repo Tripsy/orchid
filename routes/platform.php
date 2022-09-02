@@ -2,6 +2,9 @@
 
 declare(strict_types=1);
 
+use App\Orchid\Screens\ArticleScreen;
+use App\Orchid\Screens\Category\CategoryListScreen;
+use App\Orchid\Screens\Category\CategoryManageScreen;
 use App\Orchid\Screens\Examples\ExampleCardsScreen;
 use App\Orchid\Screens\Examples\ExampleChartsScreen;
 use App\Orchid\Screens\Examples\ExampleFieldsAdvancedScreen;
@@ -42,7 +45,7 @@ Route::screen('profile', UserProfileScreen::class)
             ->push(__('Profile'), route('platform.profile'));
     });
 
-// Platform > System > Users
+// Platform > System > Users > Edit
 Route::screen('users/{user}/edit', UserEditScreen::class)
     ->name('platform.systems.users.edit')
     ->breadcrumbs(function (Trail $trail, $user) {
@@ -60,7 +63,7 @@ Route::screen('users/create', UserEditScreen::class)
             ->push(__('Create'), route('platform.systems.users.create'));
     });
 
-// Platform > System > Users > User
+// Platform > System > Users > List
 Route::screen('users', UserListScreen::class)
     ->name('platform.systems.users')
     ->breadcrumbs(function (Trail $trail) {
@@ -113,3 +116,48 @@ Route::screen('example-cards', ExampleCardsScreen::class)->name('platform.exampl
 Route::screen('example-advanced', ExampleFieldsAdvancedScreen::class)->name('platform.example.advanced');
 
 //Route::screen('idea', Idea::class, 'platform.screens.idea');
+
+// Platform > System > Articles > List
+Route::screen('article', ArticleScreen::class, 'platform.screens.article')
+    ->name('platform.systems.article')
+    ->breadcrumbs(function (Trail $trail) {
+        return $trail
+            ->parent('platform.index')
+            ->push(__('Articles'), route('platform.systems.article'));
+    });
+
+// Platform > System > Articles > Create
+Route::screen('article/create', ArticleScreen::class)
+    ->name('platform.systems.article.create')
+    ->breadcrumbs(function (Trail $trail) {
+        return $trail
+            ->parent('platform.systems.article')
+            ->push(__('Add'), route('platform.systems.article.create'));
+    });
+
+// Platform > System > Category > Edit
+Route::screen('category/edit/{category}', CategoryManageScreen::class)
+    ->name('platform.systems.category.edit')
+    ->breadcrumbs(function (Trail $trail, $category) {
+        return $trail
+            ->parent('platform.systems.category.list')
+            ->push(__('Category'), route('platform.systems.category.edit', $category));
+    });
+
+// Platform > System > Category > Create
+Route::screen('category/create', CategoryManageScreen::class)
+    ->name('platform.systems.category.create')
+    ->breadcrumbs(function (Trail $trail) {
+        return $trail
+            ->parent('platform.systems.category.list')
+            ->push(__('Add'), route('platform.systems.category.create'));
+    });
+
+// Platform > System > Category > List
+Route::screen('category', CategoryListScreen::class, 'platform.screens.category.list')
+    ->name('platform.systems.category.list')
+    ->breadcrumbs(function (Trail $trail) {
+        return $trail
+            ->parent('platform.index')
+            ->push(__('Categories'), route('platform.systems.category.list'));
+    });

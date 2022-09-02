@@ -1,21 +1,35 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
-use Orchid\Platform\Models\User as Authenticatable;
+use Illuminate\Database\Eloquent\Model;
+use Orchid\Attachment\Attachable;
+use Orchid\Filters\Filterable;
+use Orchid\Screen\AsSource;
 
-class User extends Authenticatable
+class Article extends Model
 {
+    use AsSource, Filterable, Attachable;
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'permissions',
+        'user_id',
+        'category_id',
+        'language',
+        'layout',
+        'title',
+        'slug',
+        'brief',
+        'content',
+        'publish_at',
+        'expire_at',
+        'status',
     ];
 
     /**
@@ -24,9 +38,6 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password',
-        'remember_token',
-        'permissions',
     ];
 
     /**
@@ -35,8 +46,9 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = [
-        'permissions'          => 'array',
-        'email_verified_at'    => 'datetime',
+        'status'          => ?? enum,
+        'publish_at'    => 'datetime',
+        'expire_at'    => 'datetime',
     ];
 
     /**

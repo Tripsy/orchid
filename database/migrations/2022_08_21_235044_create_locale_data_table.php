@@ -21,7 +21,7 @@ return new class extends Migration
             $table->char('name', 64);
             $table->text('content');
 
-            $table->index(['entry_id', 'section', 'name', 'locale']);
+            $table->index(['entry_id', 'section', 'locale', 'name']);
         });
     }
 

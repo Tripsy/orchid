@@ -2,51 +2,31 @@
 
 namespace App\Providers;
 
-use Illuminate\Cache\RateLimiting\Limit;
-use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\RateLimiter;
-use Illuminate\Support\Facades\Route;
+use Illuminate\Support\ServiceProvider;
+use Orchid\Platform\ItemPermission;
+use Orchid\Platform\Dashboard;
 
-class RouteServiceProvider extends ServiceProvider
+class PermissionServiceProvider extends ServiceProvider
 {
     /**
-     * The path to the "home" route for your application.
-     *
-     * Typically, users are redirected here after authentication.
-     *
-     * @var string
+     * @param Dashboard $dashboard
      */
-    public const HOME = '/home';
-
-    /**
-     * Define your route model bindings, pattern filters, and other route configuration.
-     *
-     * @return void
-     */
-    public function boot()
+    public function boot(Dashboard $dashboard)
     {
-        $this->configureRateLimiting();
+         $system = ItemPermission::group(__('System'))
+            ->addPermission('platform.systems.roles', __('Roles'))
+            ->addPermission('platform.systems.users', __('Users'));
 
-        $this->routes(function () {
-            Route::middleware('api')
-                ->prefix('api')
-                ->group(base_path('routes/api.php'));
+        $dashboard->registerPermissions($system);
 
-            Route::middleware('web')
-                ->group(base_path('routes/web.php'));
-        });
-    }
+        $data = ItemPermission::group('Data')
+            ->addPermission('platform.systems.category', __('Categories'));
 
-    /**
-     * Configure the rate limiters for the application.
-     *
-     * @return void
-     */
-    protected function configureRateLimiting()
-    {
-        RateLimiter::for('api', function (Request $request) {
-            return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
-        });
+        $dashboard->registerPermissions($data);
+
+        $content = ItemPermission::group('Content')
+            ->addPermission('platform.systems.article', __('Articles'));
+
+        $dashboard->registerPermissions($content);
     }
 }
